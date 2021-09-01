@@ -1,1 +1,2 @@
-print("somthing")
+print("Something happening")
+print("I love u guys")
