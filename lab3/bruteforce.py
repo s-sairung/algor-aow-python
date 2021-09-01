@@ -14,23 +14,17 @@ class bruteForce:
     global max
 
     # Pairing Grab and Passenger
-    '''
-    tempArr = arr.copy()
     for i in range(k):
         cnt = 0
-        for j in range(len(tempArr)):
-            if tempArr[j] == "G":
-                if j-i < 0 and tempArr[j-i] == "P":
-                    cnt += 1 
-    '''
-         
+        for j in range(len(arr)):
+            
 """
  ---- Idea ----
     create tempArrayInput
     def int Max
     for (int i = 0; i < k ; i++){ 
         int cnt = 0;
-        find first 'G'
+        find first 'G' HATE HATE# GAH
         then loop find shorttest 'P' from 'G' in these area ***********[G-i...G...G+i]************* 
             if found, pair and mark these two used 
             cnt++
