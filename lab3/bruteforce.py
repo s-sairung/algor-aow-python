@@ -1,68 +1,68 @@
-class bruteForce:
-
-    # Reading input file
-    """
-    file = open("/input/Example/3.1.1.txt", "r")
-    string = file.readline()
-    integer = file.readline()
-    file.close()
-    """
-
-    #Simulate input
-    string = "GGPPGGGGPPPG"
-    integer = "3"
-
-    # Processing the input
-    global arr
-    arr = []
-    for alphabet in string:
-        arr.append(alphabet)
-    global k
-    k = int(integer)
+def bruteforce(arr, k): #โดนเรียกจาก tester
+    #passaway???
+    #Variables Costructions
+    global num_of_solutions
+    num_of_solutions = 0
+    global p_used
+    p_used = []
     global max_pickup
     max_pickup = 0
-    global used_index
-    used_index = []
-    global cnt
-    cnt = 0
+    global ar_k
+    ar_k = []
+    global cur_pickup
+    cur_pickup = 0
+    global g_used
+    g_used = []
+    lower_k = 0 - int(k)
+    while (lower_k <= k):
+        ar_k.append(lower_k)
+        lower_k += 1
+    # print(ar_k)
 
-    # Pick up passenger in unit range
-    def pick_up(index, unit):
-        cnt_pick = 0
-        p_index_left = index - unit
-        p_index_right = index + unit
-        if p_index_left >= 0 and arr[p_index_left] == "P" and not used_index.__contains__(p_index_left):
-            used_index.append(p_index_left)
-            cnt_pick += 1
-        elif p_index_right < len(arr) and arr[p_index_right] == "P" and not used_index.__contains__(p_index_right):
-            used_index.append(p_index_right)
-            cnt_pick += 1
-        return cnt_pick
+    bruteforce_recursive(arr, -1)
 
-    # Pairing Grab and Passenger
-    for i in range(k):
-        for j in range(len(arr)):
-            if arr[j] == "G":
-                cnt += pick_up(j,i)
-        used_index.clear # WHY. DID. YOUUU. NOT. CLEAR. ALL. OF. YOUR. ITEMSSSSSSSSSS!!!!!!!!!
-        if cnt > max_pickup:
-            max_pickup = int(cnt)
-            cnt = 0
-             
-    print("Output : " + str(max_pickup) + ".")
+    print("Output (Number of Solutions via Bruteforce) : " + str(num_of_solutions) + ".")
+    
 
-"""
- ---- Idea ----
-    create tempArrayInput
-    def int Max
-    for (int i = 0; i < k ; i++){ 
-        int cnt = 0;
-        find first 'G' HATE HATE# GAH
-        then loop find shorttest 'P' from 'G' in these area ***********[G-i...G...G+i]************* 
-            if found, pair and mark these two used 
-            cnt++
-            if cnt > Max assign new Max value
-    }
-    return Max
-""" 
+#หา G
+def bruteforce_recursive(arr, index):
+    global max_pickup
+    global cur_pickup
+    global num_of_solutions
+    global p_used
+    global g_used
+    found = False
+    cur_index = index + 1
+    
+    while cur_index < len(arr):
+        if arr[cur_index] == 'G':
+            found = True
+            break
+        cur_index += 1
 
+    if not found:
+        # print("p_used = " + str(p_used))
+        # print("g_used = " + str(g_used))
+        if len(p_used) != 0 and len(g_used) != 0:
+            p_used.pop(len(p_used) - 1)
+            g_used.pop(len(g_used) - 1)
+            cur_pickup -= 1
+        if  cur_pickup == max_pickup:
+            num_of_solutions += 1
+        elif cur_pickup > max_pickup:
+            max_pickup = cur_pickup
+            num_of_solutions = 1
+        return
+
+    # ตรงนี้คือ found
+    
+    for n in ar_k:
+        i = cur_index + n
+        if i >= 0 and i < len(arr) and arr[i] == 'P' and i not in p_used:
+            p_used.append(i)
+            g_used.append(cur_index)
+            cur_pickup += 1
+            bruteforce_recursive(arr, cur_index)
+
+    bruteforce_recursive(arr, cur_index)
+    

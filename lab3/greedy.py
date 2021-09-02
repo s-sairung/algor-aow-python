@@ -1,7 +1,5 @@
 def greedy(arr, k):
 
-    print("Input : arr [] = " + str(arr) + ",\n\t\tk = " + str(k) + ".")
-
     index_taken = []
     max_passenger = 0
 
@@ -15,4 +13,5 @@ def greedy(arr, k):
                     max_passenger += 1
                     break
 
-    print("Output : " + str(max_passenger) + ".")
+    print("Output (Maximum Number of Passengers via Greedy) : " + str(max_passenger) + ".")
+    
