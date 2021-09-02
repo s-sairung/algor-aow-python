@@ -1,14 +1,21 @@
-print("Something happening")
-print("I love u guys")
-print("something")
+import os
+from greedy import greedy
 
-class Car:
-    #private String brand
-    def __init__(self, brand):
-        self.brand = brand 
-    def get_brand(self):
-        return self.brand
+# open file
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, 'input/Example/3.1.1.txt')
+f = open(filename)
+lines = [line.strip() for line in f.readlines()]
+f.close()
 
+# print(lines)
 
-car1 = Car("pandy")
-print(car1.get_brand) 
+input_line_1 = lines[0]
+input_line_2 = lines[1]
+arr = []
+
+k = int(input_line_2)
+for c in input_line_1:
+    arr.append(c)
+
+greedy(arr, k)
