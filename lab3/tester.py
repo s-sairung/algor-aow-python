@@ -4,7 +4,7 @@ from greedy import greedy
 
 # open file
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'input/Example/3.1.1.txt')
+filename = os.path.join(dirname, 'input/Extra/3.4.5.txt')
 f = open(filename)
 lines = [line.strip() for line in f.readlines()]
 f.close()
@@ -24,8 +24,8 @@ for c in input_line_1:
 # k = 1
 # arr = ['P', 'G', 'P', 'G', 'P', 'G', 'P', 'G', 'P', 'G', 'P', 'G', 'P']
 
-print("Input : arr [] = " + str(arr) + ";\tk = " + str(k) + ".")
+print("Input : arr [] = " + str(arr) + "; k = " + str(k) + ".")
 
 bruteforce(arr, k)
 greedy(arr, k)
-#susu /.ชูป้ายไฟ
+#susu /.ชูป้ายไฟ เก่งม้าก
