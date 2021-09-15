@@ -1,6 +1,11 @@
-arr = [2, 3, 1]
+from dynamic import ways
 
-d = {}
-d["a"] = arr
+global coins
+coins = [1, 2, 3]
+coins.sort()
+amount = 2
+
+ways(len(coins) - 1, amount)
+
 
 
