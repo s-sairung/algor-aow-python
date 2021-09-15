@@ -79,7 +79,7 @@ def min_coin(k: int, a: int):
         return n
 
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'input/4.1.txt')
+filename = os.path.join(dirname, 'input/4.3.txt')
 f = open(filename)
 lines = [line.strip() for line in f.readlines()]
 f.close()
