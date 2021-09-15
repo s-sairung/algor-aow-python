@@ -1,9 +1,9 @@
 from pydantic import validate_arguments
+import os
 
 global coins
 global table_ways # dict ที่จะเก็บ ways ที่เราคำนวณเสร็จ
 global table_min
-coins = [1, 2, 3]
 table_ways = {}
 table_min = {}
 
@@ -56,8 +56,44 @@ plzzz  เกือบไปได้แล้วสสสสวววว แป
 
 @validate_arguments
 def min_coin(k: int, a: int):
-    pass
 
-print(ways(len(coins) - 1, 5))
-print(table_ways)
+    if (a, k) in table_min:
+        return table_min[(a, k)]
+
+    d = coins[k]
+    if a == 0:
+        table_min[(0, k)] = 0
+        return 0
+    if k == 0:
+        init = a/d
+        table_min[(a, 0)] = init
+        return init
+
+    if d > a:
+        n = min_coin(k - 1, a)
+        table_min[(a, k)] = n
+        return n
+    else:
+        n = min(min_coin(k - 1, a), min_coin(k, a - d) + 1)
+        table_min[(a, k)] = n
+        return n
+
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, 'input/4.1.txt')
+f = open(filename)
+lines = [line.strip() for line in f.readlines()]
+f.close()
+
+amount = lines[0]
+coins = [int(c.strip()) for c in lines[1].split(' ')]
+coins.sort()
+
+# coins = [1, 2, 3]
+# amount = 5
+k = len(coins) - 1
+
+print('Amount = ' + str(amount))
+print('coins[] = ' + str(coins))
+print('Way(s) to make change = ' + str(ways(k, amount)))
+print('Minimum of Coin(s) is = ' + str(min_coin(k, amount)))
 
