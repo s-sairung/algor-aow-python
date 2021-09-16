@@ -7,6 +7,7 @@ global table_min
 table_ways = {}
 table_min = {}
 
+
 @validate_arguments
 def ways(k: int, a: int): 
 # k คือ indexเหรียญ(0,1,2)
@@ -53,7 +54,7 @@ plzzz  เกือบไปได้แล้วสสสสวววว แป
 อันนั้นคืออะไรวะ แบบ ให้แถวบนสุด = 1 or some shit oh my ทำ recursive ให้เสร็จก่อนละกัน
 
 '''
-
+global cnt_coins_arr
 @validate_arguments
 def min_coin(k: int, a: int):
 
@@ -77,6 +78,7 @@ def min_coin(k: int, a: int):
         n = min(min_coin(k - 1, a), min_coin(k, a - d) + 1)
         table_min[(k, a)] = n
         return n
+
 
 dirname = os.path.dirname(__file__)
 filename = os.path.join(dirname, 'input/4.3.txt')
