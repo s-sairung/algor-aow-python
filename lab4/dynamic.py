@@ -13,28 +13,28 @@ def ways(k: int, a: int):
 # a คือ amount ที่เหลือ
 # d คือ coins[k]
 
-    if (a, k) in table_ways:
-        return table_ways[(a, k)]
+    if (k, a) in table_ways:
+        return table_ways[(k, a)]
 
     d = coins[k]
     if a == 0:
-        table_ways[(0, k)] = 1
+        table_ways[(k, 0)] = 1
         return 1
     if k == 0:
         if a % d == 0:
-            table_ways[(a, 0)] = 1
+            table_ways[(0, a)] = 1
             return 1
         else:
-            table_ways[(a, 0)] = 0
+            table_ways[(0, a)] = 0
             return 0
 
     if d > a:
         w = ways(k - 1, a)
-        table_ways[(a, k)] = w
+        table_ways[(k, a)] = w
         return w
     else:
         w = ways(k - 1, a) + ways(k, a - d)
-        table_ways[(a, k)] = w
+        table_ways[(k, a)] = w
         return w
 
 
@@ -57,25 +57,25 @@ plzzz  เกือบไปได้แล้วสสสสวววว แป
 @validate_arguments
 def min_coin(k: int, a: int):
 
-    if (a, k) in table_min:
-        return table_min[(a, k)]
+    if (k, a) in table_min:
+        return table_min[(k, a)]
 
     d = coins[k]
     if a == 0:
-        table_min[(0, k)] = 0
+        table_min[(k, 0)] = 0
         return 0
     if k == 0:
-        init = a/d
-        table_min[(a, 0)] = init
+        init = a / d
+        table_min[(0, a)] = init
         return init
 
     if d > a:
         n = min_coin(k - 1, a)
-        table_min[(a, k)] = n
+        table_min[(k, a)] = n
         return n
     else:
         n = min(min_coin(k - 1, a), min_coin(k, a - d) + 1)
-        table_min[(a, k)] = n
+        table_min[(k, a)] = n
         return n
 
 dirname = os.path.dirname(__file__)
