@@ -14,6 +14,8 @@ def ways(k: int, a: int):
 # a คือ amount ที่เหลือ
 # d คือ coins[k]
 
+
+    
     if (k, a) in table_ways:
         return table_ways[(k, a)]
 
@@ -33,10 +35,10 @@ def ways(k: int, a: int):
         w = ways(k - 1, a)
         table_ways[(k, a)] = w
         return w
-    else:
-        w = ways(k - 1, a) + ways(k, a - d)
-        table_ways[(k, a)] = w
-        return w
+
+    w = ways(k - 1, a) + ways(k, a - d)
+    table_ways[(k, a)] = w
+    return w
 
 
 
@@ -74,10 +76,10 @@ def min_coin(k: int, a: int):
         n = min_coin(k - 1, a)
         table_min[(k, a)] = n
         return n
-    else:
-        n = min(min_coin(k - 1, a), min_coin(k, a - d) + 1)
-        table_min[(k, a)] = n
-        return n
+
+    n = min(min_coin(k - 1, a), min_coin(k, a - d) + 1)
+    table_min[(k, a)] = n
+    return n
 
 
 dirname = os.path.dirname(__file__)
