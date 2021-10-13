@@ -1,5 +1,3 @@
-from pydantic.decorator import validate_arguments
-from pydantic import validate_arguments
 from object import Place
 from object import City
 import os
@@ -40,9 +38,8 @@ def print_all_pair_path(i: Place, j: Place):
         path = path + str(i.id)
 
     elif pre == None:
-        print('nein mai naaa!')
-        # print('-----------------')    
-        # return False
+        # print('nein mai naaa!') 
+        return False
     else:
         print_all_pair_path(i, pre)
         path = path + str(j.id)
@@ -67,13 +64,51 @@ def dijkstraaaa(city: City, source: Place):
 
 
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'input/ex.txt')
+filename = os.path.join(dirname, 'input/6.1.txt')
 f = open(filename)
 lines = [line.strip() for line in f.readlines()]
 f.close()
-# print(lines)
-# print('-----------------')
 
+
+first_time = True
+city_map = []
+for line in lines:
+    s = line.split()
+
+    if len(s) == 2 and first_time:
+        a = int(s[0])
+        b = int(s[1])
+        if a == 0 and b == 0: break
+        c = City(a, b)
+        first_time = False
+
+    elif len(s) == 3:
+        c.build_road(line)
+
+    elif len(s) == 2 and not first_time:
+        city_map.append(c)
+        a = int(s[0])
+        b = int(s[1])
+        if a == 0 and b == 0: break
+        c = City(a, b)
+
+for city in city_map:
+    for u in city.poi:
+        dijkstraaaa(city, u)
+        for v in city.poi:
+            # print('\nu = ' + str(u.id) + ' -> v = ' + str(v.id))
+            path_found = print_all_pair_path(u, v)
+            # print(path_found)
+            # print(path)
+            path = ''
+            if path_found == False:
+                print('0')
+                break
+        if path_found == False:
+            break
+    if path_found == None:
+        print('1')
+'''
 c = None
 
 for line in lines:
@@ -107,6 +142,7 @@ for line in lines:
 
     elif len(s) == 3:
         c.build_road(line)
+'''
 
 # วนทุกจุด
 # for u in c.poi:
