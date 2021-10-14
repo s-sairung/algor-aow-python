@@ -84,9 +84,8 @@ def check_city(c: City, u: Place):
         if path_found == False:
             return False
     return True
-    
 
-# ----------------------------อ่านไฟล์อยู่นี่ค่ะ---------------------------------------------------
+"""----------------------------อ่านไฟล์อยู่นี่ค่ะ-------------------------------------"""
 dirname = os.path.dirname(__file__)
 filename = os.path.join(dirname, 'input/6.1.txt')
 f = open(filename)
