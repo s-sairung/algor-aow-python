@@ -28,9 +28,9 @@ def extract_min(l: list[Place]):
     l.pop(min_place_index)
     return temp
 
+
 global path
 path = ''
-
 def print_all_pair_path(i: Place, j: Place):
     pre = j.predecessor
     global path
@@ -45,6 +45,15 @@ def print_all_pair_path(i: Place, j: Place):
         path = path + str(j.id)
 
 
+def check_all_pair_path(i: Place, j: Place):
+    pre = j.predecessor
+    if i == j:
+        return True
+    elif pre == None:
+        return False
+    check_all_pair_path(i, pre)
+
+
 def dijkstraaaa(city: City, source: Place):
     w = city.adjMatrix
     initialize_single_source(city, source)
@@ -55,14 +64,29 @@ def dijkstraaaa(city: City, source: Place):
         s.add(u)
         # s = s.union({u})
         # https://www.w3schools.com/python/python_sets_methods.asp
-        # for v in w[u.id - 1]: # v is int
-        #     relax(u, v, w)
         for j in range(len(w[u.id - 1])):
             if w[u.id - 1][j] != 0:
                 v = city.poi[j]
                 relax(u, v, w)
 
 
+def build_city(s: list):
+    a = int(s[0])
+    b = int(s[1])
+    if a == 0 and b == 0: return None
+    c = City(a, b)
+    return c
+
+
+def check_city(c: City, u: Place):
+    for v in c.poi:
+        path_found = check_all_pair_path(u, v)
+        if path_found == False:
+            return False
+    return True
+    
+
+# ----------------------------อ่านไฟล์อยู่นี่ค่ะ---------------------------------------------------
 dirname = os.path.dirname(__file__)
 filename = os.path.join(dirname, 'input/6.1.txt')
 f = open(filename)
@@ -72,83 +96,32 @@ f.close()
 
 first_time = True
 city_map = []
-for line in lines:
-    s = line.split()
+for line in lines: # line = ['0 1']
+    s = line.split() # s = ['0', '1']
 
     if len(s) == 2 and first_time:
-        a = int(s[0])
-        b = int(s[1])
-        if a == 0 and b == 0: break
-        c = City(a, b)
+        c = build_city(s)
+        if c == None: break
         first_time = False
-
-    elif len(s) == 3:
-        c.build_road(line)
 
     elif len(s) == 2 and not first_time:
         city_map.append(c)
-        a = int(s[0])
-        b = int(s[1])
-        if a == 0 and b == 0: break
-        c = City(a, b)
-
-for city in city_map:
-    for u in city.poi:
-        dijkstraaaa(city, u)
-        for v in city.poi:
-            # print('\nu = ' + str(u.id) + ' -> v = ' + str(v.id))
-            path_found = print_all_pair_path(u, v)
-            # print(path_found)
-            # print(path)
-            path = ''
-            if path_found == False:
-                print('0')
-                break
-        if path_found == False:
-            break
-    if path_found == None:
-        print('1')
-'''
-c = None
-
-for line in lines:
-    s = line.split()
-    if len(s) == 2 and c is None: # เมืองแรก
-        print('First City')
-        a = int(s[0])
-        b = int(s[1])
-        c = City(a, b)
-
-    elif len(s) == 2 and c is not None: # เจอเมืองใหม่
-        
-        a = int(s[0])
-        b = int(s[1])
-
-        print('\nNew City')
-
-        # คำนวณเมืองก่อนหน้านี้
-        path_found = True
-        for u in c.poi:
-            dijkstraaaa(c, u)
-            # วน print
-            for v in c.poi:
-                print('\nu = ' + str(u.id) + ' -> v = ' + str(v.id))
-                print_all_pair_path(u, v)
-                print(path)
-                path = ''
-
-        
-        c = City(a, b)
+        c = build_city(s)
+        if c == None: break
 
     elif len(s) == 3:
         c.build_road(line)
-'''
 
-# วนทุกจุด
-# for u in c.poi:
-#     dijkstraaaa(c, u)
-#     for v in c.poi:
-#         print('u = ' + str(u.id) + ' -> v = ' + str(v.id))
-#         print_all_pair_path(u, v)
-#         print('---------')
-#     print('-----------------')
+
+# city_map เก็บทุกเมืองที่สร้างเสร็จแล้ว
+# city.poi เก็บสถานที่ทุกจุดในเมืองหนึ่ง ๆ
+
+for city in city_map:
+    for u in city.poi: # ไล่สร้าง dijkstraaaaa ทีละจุดจากทุกจุด
+        dijkstraaaa(city, u)
+        path_found = check_city(city, u) # ไล่เช็ค path ระหว่างจุด u กับจุด v แต่ละจุดใน city
+        if path_found == False:
+            print('0')
+            break
+    if path_found:
+        print('1')
