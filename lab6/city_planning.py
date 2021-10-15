@@ -79,8 +79,8 @@ def build_city(s: list):
 
 
 def check_city(c: City, u: Place):
-    for v in c.poi:
-        path_found = check_all_pair_path(u, v)
+    for v in c.poi: # O(V**2)
+        path_found = check_all_pair_path(u, v) # O(V)
         if path_found == False:
             return False
     return True
@@ -115,10 +115,10 @@ for line in lines: # line = ['0 1']
 # city_map เก็บทุกเมืองที่สร้างเสร็จแล้ว
 # city.poi เก็บสถานที่ทุกจุดในเมืองหนึ่ง ๆ
 
-for city in city_map:
-    for u in city.poi: # ไล่สร้าง dijkstraaaaa ทีละจุดจากทุกจุด
-        dijkstraaaa(city, u)
-        path_found = check_city(city, u) # ไล่เช็ค path ระหว่างจุด u กับจุด v แต่ละจุดใน city
+for city in city_map: #O(G V**3)
+    for u in city.poi: # ไล่สร้าง dijkstraaaaa ทีละจุดจากทุกจุด O(V**3)
+        dijkstraaaa(city, u) # O(V**2)
+        path_found = check_city(city, u) # ไล่เช็ค path ระหว่างจุด u กับจุด v แต่ละจุดใน city O(V**2)
         if path_found == False:
             print('0')
             break
