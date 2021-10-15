@@ -8,15 +8,17 @@ class Place: # aka Vertice
         self.id = id
         self.distance = m.inf
         self.predecessor = None
-    
+        self.color = 'WHITE'
+        self.finished = None
 
 class City: # aka Graph
-    
+
     @validate_arguments
     def __init__(self, vertices: int, edges: int):
         self.num_of_places = vertices
         self.num_of_roads = edges
         self.adjMatrix = [[0] * vertices for i in range(vertices)] # initialize matrix
+        self.adjMatrixTrans = [[0] * vertices for i in range(vertices)] # initialize matrix
         self.poi = [Place(i) for i in range(1, vertices + 1)] # list of places in this city
     
     @validate_arguments
@@ -28,7 +30,10 @@ class City: # aka Graph
         c = int(c)
         if c == 1:
             self.adjMatrix[a][b] = 1
+            self.adjMatrixTrans[b][a] = 1
         else:
             self.adjMatrix[a][b] = 1
             self.adjMatrix[b][a] = 1
-    
+            self.adjMatrixTrans[b][a] = 1
+            self.adjMatrixTrans[a][b] = 1
+        
