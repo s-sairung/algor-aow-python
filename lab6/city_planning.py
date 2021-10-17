@@ -119,7 +119,10 @@ def dfs(c: City, trans_mode: bool):
     global time
     global comps
     comps = []
-    poi = c.poi.copy()
+    if trans_mode:
+        poi = c.poi_sorted.copy()
+    else:
+        poi = c.poi.copy()
     for u in poi:
         u.color = 'WHITE'
         u.predecessor = None
@@ -156,6 +159,7 @@ def dfs_visit(c: City, u: Place, trans_mode: bool):
 
 def selection_sort_place_des(c: City):
     l = c.poi.copy()
+    adj = c.adjMatrixTrans.copy()
     for i in range(len(l) - 1):
         minimum = i
         for j in range(len(l) - 1, i, - 1):
@@ -165,7 +169,15 @@ def selection_sort_place_des(c: City):
                 minimum = j
         if (minimum != i):
             l[i], l[minimum] = l[minimum], l[i]
-    c.poi = l
+            adj[i], adj[minimum] = adj[minimum], adj[i]
+
+    for i in range(len(c.poi)):
+        for j in range(len(l)):
+            if c.poi[i].id == l[j].id:
+                c.new_index[i] = j
+                
+    c.poi_sorted = l
+    c.adjMatrixTrans_sorted = adj
 
 
 def strongly_connected_components(c: City):
@@ -186,7 +198,7 @@ for city in city_map: # O(G V**3)
         if path_found == False:
             print('0')
             strongly_connected_components(city)
-            print(' components = ' + str(len(comps)))
+            print('components = ' + str(len(comps)))
             break
     if path_found:
         print('1')
