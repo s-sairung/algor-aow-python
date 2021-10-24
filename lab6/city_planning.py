@@ -113,12 +113,19 @@ for line in lines: # line = ['0 1']
 
 
 global time
-global comps
+global comp_root
 global last
+global comp_member
+global temp
+
 def dfs(c: City, trans_mode: bool):
     global time
-    global comps
-    comps = []
+    global comp_root
+    global comp_member
+    global temp
+    comp_root = []
+    comp_member = []
+    temp = []
     if trans_mode:
         poi = c.poi_sorted.copy()
     else:
@@ -133,11 +140,14 @@ def dfs(c: City, trans_mode: bool):
         if u.color == 'WHITE':
             dfs_visit(c, u, trans_mode)
             if trans_mode:
-                comps.append(u)
-                print('u.id = ' + str(u.id))
+                comp_root.append(u)
+                comp_member.append(temp)
+                temp = []
+                # print('u.id = ' + str(u.id))
 
 
 def dfs_visit(c: City, u: Place, trans_mode: bool):
+    global temp
     if trans_mode:
         w = c.adjMatrixTrans.copy()
     else:
@@ -152,6 +162,9 @@ def dfs_visit(c: City, u: Place, trans_mode: bool):
             if v.color == 'WHITE':
                 v.predecessor = u
                 dfs_visit(c, v, trans_mode)
+
+    if trans_mode:
+        temp.append(u)  
     u.color = 'BLACK'
     time = time + 1
     u.finished = time
@@ -198,7 +211,23 @@ for city in city_map: # O(G V**3)
         if path_found == False:
             print('0')
             strongly_connected_components(city)
-            print('components = ' + str(len(comps)))
+            print('components = ' + str(len(comp_member)))
+
+            # print comp_member = [[p1, p2], [p3], [p4, p5, p6]]
+            for i in range(len(comp_member)):
+                print('member number ' + str(i+1))
+                for p in comp_member[i]:
+                    print(p.id, end=' ')
+                print('')
+
+            comp_member_temp = comp_member.copy()
+            while len(comp_member_temp) > 1:
+                c1 = comp_member_temp[0]
+                c2 = comp_member_temp[1]
+                print('add express: ' + str(c1[0].id) + ' <-> ' + str(c2[0].id))
+                c1.extend(c2)
+                comp_member_temp.pop(1)
+            print('new components = ' + str(len(comp_member_temp)))
             break
     if path_found:
         print('1')
