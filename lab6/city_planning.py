@@ -2,6 +2,7 @@ from object import Place
 from object import City
 import os
 import math as m
+import random
 
 
 def initialize_single_source(city: City, source: Place):
@@ -222,11 +223,15 @@ for city in city_map: # O(G V**3)
 
             comp_member_temp = comp_member.copy()
             while len(comp_member_temp) > 1:
-                c1 = comp_member_temp[0]
-                c2 = comp_member_temp[1]
-                print('add express: ' + str(c1[0].id) + ' <-> ' + str(c2[0].id))
+                i1 = random.randint(0, len(comp_member_temp) - 1)
+                i2 = random.randint(0, len(comp_member_temp) - 1)
+                while i2 == i1:
+                    i2 = random.randint(0, len(comp_member_temp) - 1)
+                c1 = comp_member_temp[i1]
+                c2 = comp_member_temp[i2]
+                print('build expressway: ' + str(c1[0].id) + ' <-> ' + str(c2[0].id))
                 c1.extend(c2)
-                comp_member_temp.pop(1)
+                comp_member_temp.pop(i2)
             print('new components = ' + str(len(comp_member_temp)))
             break
     if path_found:
