@@ -215,18 +215,20 @@ for city in city_map: # O(G V**3)
             print('components = ' + str(len(comp_member)))
 
             # print comp_member = [[p1, p2], [p3], [p4, p5, p6]]
+            '''
             for i in range(len(comp_member)):
                 print('member number ' + str(i+1))
                 for p in comp_member[i]:
                     print(p.id, end=' ')
                 print('')
+            '''
 
             comp_member_temp = comp_member.copy()
             while len(comp_member_temp) > 1:
-                i1 = random.randint(0, len(comp_member_temp) - 1)
-                i2 = random.randint(0, len(comp_member_temp) - 1)
+                i1 = random.randrange(len(comp_member_temp))
+                i2 = random.randrange(len(comp_member_temp))
                 while i2 == i1:
-                    i2 = random.randint(0, len(comp_member_temp) - 1)
+                    i2 = random.randrange(len(comp_member_temp))
                 c1 = comp_member_temp[i1]
                 c2 = comp_member_temp[i2]
                 print('build expressway: ' + str(c1[0].id) + ' <-> ' + str(c2[0].id))
