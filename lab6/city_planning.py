@@ -252,7 +252,6 @@ for city in city_map: # O(G V**3)
             # 5. ถ้าทำจนครบแล้วแต่ big_comp != จำนวนจุด นั้นคือ มี SCC(s) ที่แยกกันอยู่อย่างสมบูรณ์ ให้สร้างทาง ไป-กลับ ให้ทั้งสอง SCC นั้น
             #    จนกว่า big_comp = จำนวนจุด
             
-
             for i in range(len(comp_member_temp)): # for each SCCs 
                 for j in range(len(comp_member_temp[i])): # for each point in SCCs
                     p = comp_member_temp[i][j]
