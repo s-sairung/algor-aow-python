@@ -223,6 +223,8 @@ for city in city_map: # O(G V**3)
                 print('')
             '''
 
+            # idealy best algorithm for joining components for us -zaragapoy
+            '''
             comp_member_temp = comp_member.copy()
             while len(comp_member_temp) > 1:
                 i1 = random.randrange(len(comp_member_temp))
@@ -235,7 +237,43 @@ for city in city_map: # O(G V**3)
                 c1.extend(c2)
                 comp_member_temp.pop(i2)
             print('new components = ' + str(len(comp_member_temp)))
+            '''
+            
+            comp_member_temp = comp_member.copy() # comp_member_temp = [[p1, p2], [p3], [p4, p5, p6]]
+            big_comp = comp_member_temp[0].copy() # inner SCCs
+            
+            # 1. loop จนกว่าขนาดของ big_comp = จำนวนจุด
+            # 2. ไล่เช็กแต่ละ SCC
+            # 3. ไล่เช็กแต่ละ จุดที่อยู่ใน SCC หนึ่ง ๆ
+            # 4. ดูว่าแต่ละจุดนั้นเชื่อมไป SCC อื่นไหม
+            #   4.1 ถ้าเชื่อมไป SCC อื่น และ SCC นั้นไม่อยู่ใน big_comp เพิ่ม SCC นั้นลง big_comp แสดงเส้นเชื่อมใหม่
+            #   4.2 ถ้าเชื่อมไป SCC อื่น แต่ SCC นั้นอยู่ใน big_comp ข้ามไป (continue)
+            #   4.3 ถ้าเชื่อมไป SCC เดิม ให้ continue
+            # 5. ถ้าทำจนครบแล้วแต่ big_comp != จำนวนจุด นั้นคือ มี SCC(s) ที่แยกกันอยู่อย่างสมบูรณ์ ให้สร้างทาง ไป-กลับ ให้ทั้งสอง SCC นั้น
+            #    จนกว่า big_comp = จำนวนจุด
+            
+
+            for i in range(len(comp_member_temp)): # for each SCCs 
+                for j in range(len(comp_member_temp[i])): # for each point in SCCs
+                    p = comp_member_temp[i][j]
+                    p_adj = city.adjMatrix[p.id - 1]
+                    for k in range(len(p_adj)): # เช็กว่าจุดปัจจุบันมีเส้นเชื่อมกับจุดอื่นมั้ย
+                        if p_adj[k] == 1:
+                            if city.poi[k] not in big_comp and city.poi[k] not in comp_member_temp[i]:
+                                for g in range(len(comp_member_temp)):
+                                    if city.poi[k] in comp_member_temp[g]:
+                                        big_comp.extend(comp_member_temp[g])
+                                        break
+                                print("suggested new road plan : " + str(city.poi[k].id) + " -> " + str(p.id))
+                            else:
+                                continue
+            
+            if len(big_comp) != len(city.poi):
+                for comp in comp_member_temp:
+                    if comp[0] not in big_comp:
+                        print("suggested new road plan : " + str(comp[0].id) + " -> " + str(big_comp[0].id))       
             break
+     
     if path_found:
         print('1')
         
