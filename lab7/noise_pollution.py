@@ -2,8 +2,8 @@
 #                        _oo0oo_
 #                       o8888888o
 #                       88" . "88
-#                       (| ; ; |)
-#                       0\  o  /0
+#                       (| - - |)
+#                       0\  3  /0
 #                     __;/`---'\;__
 #                   .' \|     |// '.
 #                  / \|||  :  |||// \
@@ -18,7 +18,7 @@
 #      =====`-.____`.___ \_____/___.-`___.-'=====
 #                        `=---='
 #
-#                       สาธุ คืนเดียวเสร็จ
+#                  สาธุ วันพฤหัสเสร็จแน่ 99
 #
 
 import os
@@ -43,7 +43,10 @@ class Matrix:
     def copy_matrix(self):
         return copy.deepcopy(self.matrix)
 
-    
+
+def print_array(arr: list):
+    for a in arr:
+        print(a)
 
 
 def floyd_warshall(w: list):
@@ -89,7 +92,7 @@ def print_all_pair_shortest_path(pi: list, i: int, j: int):
 
 """----------------------------อ่านไฟล์อยู่นี่ค่ะ-------------------------------------"""
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'input/7.1.txt')
+filename = os.path.join(dirname, 'input/ex.txt')
 f = open(filename)
 lines = [line.strip() for line in f.readlines()]
 f.close()
@@ -109,12 +112,12 @@ for line in range(1, edges + 1):
     j = int(j)
     w = int(w)
     weight_matrix[i - 1][j - 1] = w
-    # weight_matrix[j - 1][i - 1] = w # undirected graph
+    # weight_matrix[j - 1][i - 1] = w # undirected graph แต่ต้องทำแบบนี้ทุกจุดใน code
     
 print(weight_matrix)
 tup = floyd_warshall(weight_matrix)
-print(tup[0])
-print(tup[1])
+print_array(tup[0])
+print_array(tup[1])
 
 for line in range(edges + 1, edges + ans + 1):
     i, j = lines[line].split(" ")
