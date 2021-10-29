@@ -124,7 +124,7 @@ def floyd_warshall(w: list):
     for i in range(n):
         for j in range(n):
             if i == j or w[i][j] == m.inf:
-                pi0[i][j]= None #cryyyy
+                pi0[i][j] = None #cryyyy
             else:
                 pi0[i][j] = i
 
@@ -190,7 +190,6 @@ def print_all_pair_shortest_path(pi: list, i: int, j: int):
         print(j + 1)
 
 
-
 def print_all_pair_shortest_path_noise_pollution_version(d: list, pi: list, i: int, j: int):
     if mee_path_maii(pi, i, j):
         print("This path from " + str(i + 1) + " to " + str(j + 1) + " will produce a minimum decibel of " + str(d[i][j]))
@@ -210,7 +209,7 @@ def mee_path_maii(pi: list, i: int, j: int):
 
 """----------------------------อ่านไฟล์อยู่นี่โว้ย-------------------------------------"""
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'input/7.1.txt')
+filename = os.path.join(dirname, 'input/7_extra2.txt')
 f = open(filename)
 lines = [line.strip() for line in f.readlines()]
 f.close()
@@ -230,7 +229,7 @@ for line in range(1, edges + 1):
     j = int(j)
     w = int(w)
     weight_matrix[i - 1][j - 1] = w
-    weight_matrix[j - 1][i - 1] = w # undirected graph
+    # weight_matrix[j - 1][i - 1] = w # undirected graph
     
 print(weight_matrix)
 tup = floyd_warshall_noise_pollution_version(weight_matrix)
@@ -244,6 +243,6 @@ for line in range(edges + 1, edges + ans + 1):
     print("Path for i = " + i + ", j = " + j)
     i = int(i) - 1
     j = int(j) - 1
-    # print_all_pair_shortest_path(pi, i, j)
+    print_all_pair_shortest_path(pi, i, j)
     print_all_pair_shortest_path_noise_pollution_version(d, pi, i, j)
     print("----------")

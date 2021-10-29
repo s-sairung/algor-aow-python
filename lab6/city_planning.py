@@ -88,7 +88,7 @@ def check_city(c: City, u: Place):
 
 """----------------------------อ่านไฟล์อยู่นี่ค่ะ-------------------------------------"""
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'input/test.txt')
+filename = os.path.join(dirname, 'input/EXtra6.6.txt')
 f = open(filename)
 lines = [line.strip() for line in f.readlines()]
 f.close()
@@ -241,6 +241,11 @@ for city in city_map: # O(G V**3)
             
             comp_member_temp = comp_member.copy() # comp_member_temp = [[p1, p2], [p3], [p4, p5, p6]]
             big_comp = comp_member_temp[0].copy() # inner SCCs
+
+            # for c in comp_member_temp:
+            #     print('comp:')
+            #     for p in c:
+            #         print(p.id)
             
             # 1. loop จนกว่าขนาดของ big_comp = จำนวนจุด
             # 2. ไล่เช็กแต่ละ SCC
@@ -270,7 +275,7 @@ for city in city_map: # O(G V**3)
             if len(big_comp) != len(city.poi):
                 for comp in comp_member_temp:
                     if comp[0] not in big_comp:
-                        print("suggested new road plan : " + str(comp[0].id) + " -> " + str(big_comp[0].id))       
+                        print("suggested new road plan : " + str(comp[0].id) + " <-> " + str(big_comp[0].id))       
             break
      
     if path_found:
