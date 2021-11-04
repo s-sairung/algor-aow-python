@@ -12,6 +12,7 @@ global days
 global values
 days = int(lines[0])
 values = [float(v) for v in lines[1].split(" ")]
+print("----------------------------input--------------------------------------------------------")
 print(days)
 print(values)
 
@@ -76,7 +77,7 @@ def keng_kumrai_Combine(min_l: int, max_l: int, prof_l: int, min_r: int, max_r: 
     else:
         buy_day = values.index(min_l)
         sell_day = values.index(max_r)
-    
+    # if buy_day < sell_day:
     return (profit, min(min_l, min_r), max(max_l, max_r), buy_day + 1, sell_day + 1)
 
     
@@ -85,12 +86,12 @@ print("Brute Force method:")
 keng_kumrai_Brute_Force()
 print("----------------------------------------------------------------------------------------")
 print("Divide and Conquer method:")
-max_profit, min_value, max_value, s, e = keng_kumrai_Divide_And_Conquer(0, days - 1)
+max_profit, min_value, max_value, buy_day, sell_day = keng_kumrai_Divide_And_Conquer(0, days - 1)
 max_profit = "{:.2f}".format(max_profit)
-print("Best day to buy : " + str(s))
-print("Best value to buy : " + str(min_value))
-print("Best day to sell : " + str(e))
-print("Best value to sell : " + str(max_value))
+print("Best day to buy : " + str(buy_day))
+print("Best value to buy : " + str(values[buy_day - 1]))
+print("Best day to sell : " + str(sell_day))
+print("Best value to sell : " + str(values[sell_day - 1]))
 print("Best profit : " + str(max_profit))
-print("Number of days until sell : " + str(e - s))
-# i hate this problem so muchhhhhhhhhhhh
+print("Number of days until sell : " + str(sell_day - buy_day))
+# i hate this problem so muchhhhhhhhhhhhhhhhhh
