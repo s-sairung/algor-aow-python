@@ -1,0 +1,4 @@
+a b c
+7 24
+a b a b a c a
+a b a a b b a b a c a b a b a c b a b a b a c a
