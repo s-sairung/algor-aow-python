@@ -2,7 +2,7 @@ import os
 import math as m
 
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'input/8.6 extra.txt')
+filename = os.path.join(dirname, 'input/8.2.txt')
 f = open(filename)
 lines = [line.strip() for line in f.readlines()]
 f.close()
@@ -55,28 +55,9 @@ def keng_kumrai_Divide_And_Conquer(start: int, end: int): # start = 0, end = 4, 
 
     if end == start: # เหลือวันเดียว
         return (0, values[start], values[end], start, end)
-    if end - start == 1: #เหลือสองวัน
-        buy_day = None
-        sell_day = None
-        prof = None
-        if values[end] > values[start]:
-            buy_day = start
-            sell_day = end
-            prof = values[end] - values[start]
-        elif values[end] < values[start]:
-            buy_day = start
-            sell_day = start
-            prof = 0
-        else:
-            buy_day = start
-            sell_day = start
-            prof = 0
-        min_value = values[buy_day]
-        max_value = values[sell_day]
-        return (prof, min_value, max_value, buy_day, sell_day)
         
 
-    divider = (end + start)//2
+    divider = end + (start - end)//2
     prof_l, min_l, max_l, buy_l, sell_l = keng_kumrai_Divide_And_Conquer(start, divider)
     prof_r, min_r, max_r, buy_r, sell_r = keng_kumrai_Divide_And_Conquer(divider + 1, end)
     return keng_kumrai_Combine(min_l, max_l, prof_l, min_r, max_r, prof_r, buy_l, sell_l, buy_r, sell_r)
@@ -118,8 +99,8 @@ def keng_kumrai_Combine(min_l: int, max_l: int, prof_l: int, min_r: int, max_r: 
     elif prof_r == prof_lr == prof_l: # เท่ากันสามอัน
         # print("prof_r == prof_lr == prof_l")
         buy_day = buy_l
-        sell_day = sell_r
-        profit = prof_lr
+        sell_day = sell_l
+        profit = prof_l
     elif prof_r == prof_lr: # ขวาเท่ากับกลาง 
         # print("prof_r == prof_lr")
         buy_day = buy_l
@@ -128,8 +109,8 @@ def keng_kumrai_Combine(min_l: int, max_l: int, prof_l: int, min_r: int, max_r: 
     elif prof_l == prof_lr: # ซ้ายเท่ากับกลาง 
         # print("prof_l == prof_lr")
         buy_day = buy_l
-        sell_day = sell_r
-        profit = prof_lr
+        sell_day = sell_l
+        profit = prof_l
     elif prof_r == prof_l: # ซ้ายเท่ากับขวา
         # print("prof_l == prof_r")
         buy_day = buy_l
@@ -147,7 +128,7 @@ def keng_kumrai_Combine(min_l: int, max_l: int, prof_l: int, min_r: int, max_r: 
     
 print("----------------------------------------------------------------------------------------")
 print("Brute Force method:")
-# keng_kumrai_Brute_Force()
+keng_kumrai_Brute_Force()
 print("----------------------------------------------------------------------------------------")
 print("Divide and Conquer method:")
 max_profit, min_value, max_value, buy_day, sell_day = keng_kumrai_Divide_And_Conquer(0, days - 1)
