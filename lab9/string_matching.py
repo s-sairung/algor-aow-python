@@ -1,7 +1,7 @@
 import os
 
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'input/test.txt')
+filename = os.path.join(dirname, 'input/9.7.txt') #4 5 7
 f = open(filename)
 lines = [line.strip() for line in f.readlines()]
 f.close()
@@ -15,18 +15,18 @@ global pattern
 global text
 alphabets = lines[0].split(' ')
 m, n = lines[1].split(' ')
-m = int(m)
-n = int(n)
+m = int(m) # pattern length
+n = int(n) # text length
 p = lines[2].split(' ')
 pattern = ''
 text = ''
 for c in p:
     pattern = pattern + c
-print(pattern)
+# print(pattern)
 t = lines[3].split(' ')
 for c in t:
     text = text + c
-print(text)
+# print(text)
 
 def kmp_matcher(t: str, p: str):
     pi = compute_prefix_function(p)
@@ -95,4 +95,37 @@ for a in a3:
 
 for a in a4:
     print(str(n - a) + ' RL')
+
+
+print("-------------------------KMP-Around-------------------------------")
+
+# ayooooooo waassupp mannn
+# print('pattern: \t\t\t' + pattern)
+# m = pattern length
+# n = text length
+n_temp = n
+n = n + m - 1
+# print('normal text: \t\t\t' + text)
+text_circle = text + text[0: m - 1]
+# print('normal text circle: \t\t' + text_circle)
+
+a1 = kmp_matcher(text_circle, pattern)
+text_reversed = text[::-1]
+# text_circle_reversed = text_circle[::-1]
+text_circle_reversed = text_reversed + text_reversed[0: m - 1]
+
+# pattern_reversed = pattern[::-1]
+
+# print('reversed normal text: \t\t' + text_reversed)
+# print('reversed normal text circle: \t' + text_circle_reversed)
+
+a2 = kmp_matcher(text_circle_reversed, pattern)
+a2.reverse()
+
+print('ans count = ' + str(len(a1) + len(a2)))
+for a in a1:
+    print(str(a + 1) + ' LR')
+
+for a in a2:
+    print(str(n_temp - a) + ' RL')
 
