@@ -107,12 +107,12 @@ def extra():
 
 
 def combine(left_profit, left_buy_value, left_sell_value, left_max_value, left_min_value, right_profit, right_buy_value, right_sell_value, right_max_value, right_min_value):
-    newProfit = right_sell_value - left_buy_value
+    newProfit = right_max_value - left_min_value
     if right_profit >= left_profit:
         if newProfit >= right_profit:
             profit = newProfit
-            buy = left_buy_value
-            sell = right_sell_value
+            buy = left_min_value
+            sell = right_max_value
         else:
             profit = right_profit
             buy = right_buy_value
@@ -120,14 +120,14 @@ def combine(left_profit, left_buy_value, left_sell_value, left_max_value, left_m
     else:    
         if newProfit >= left_profit:
             profit = newProfit
-            buy = left_buy_value
-            sell = right_sell_value
+            buy = left_min_value
+            sell = right_max_value
         else:
             profit = left_profit
             buy = left_buy_value
             sell = left_sell_value
     max_value = max(left_max_value, right_max_value)
-    min_value = max(left_min_value, right_min_value)
+    min_value = min(left_min_value, right_min_value)
 
     return (profit, buy, sell, max_value, min_value)
        
@@ -150,17 +150,17 @@ def altDnQ():
     sell_day = values.index(sell_value)
     return (profit, buy_day, buy_value, sell_day, sell_value, max_value, min_value)
 
-def reg():
-    print("----------------------------------------------------------------------------------------")
-    print("Altenate Divide and Conquer method:")
-    profit, buy_day, buy_value, sell_day, sell_value, max_value, min_value = altDnQ()
-    profit = "{:.2f}".format(profit)
-    print('Best day to buy : ' + str(buy_day + 1))
-    print('Best value to buy : ' + str(buy_value))
-    print('Best day to sell : ' + str(sell_day + 1))
-    print('Best value to sell : ' + str(sell_value))
-    print("Best profit : " + str(profit))
-    print('Number of days until sell : ' + str(sell_day - buy_day))
+
+print("----------------------------------------------------------------------------------------")
+print("Altenate Divide and Conquer method:")
+profit, buy_day, buy_value, sell_day, sell_value, max_value, min_value = altDnQ()
+profit = "{:.2f}".format(profit)
+print('Best day to buy : ' + str(buy_day + 1))
+print('Best value to buy : ' + str(buy_value))
+print('Best day to sell : ' + str(sell_day + 1))
+print('Best value to sell : ' + str(sell_value))
+print("Best profit : " + str(profit))
+print('Number of days until sell : ' + str(sell_day - buy_day))
 
 #           _.-/`)
 #          // / / )
@@ -183,13 +183,6 @@ def reg():
 #      ))    .'
 #     //    /
 #          /
-
-
-
-if file_dir == 'input/8.6 extra.txt':
-    extra()
-else:
-    reg()
 
 
 
