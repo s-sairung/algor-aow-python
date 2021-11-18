@@ -106,8 +106,123 @@ def aprox_vertex_cover(adj: list):
     return w
 
 generate_combination()
-for w in vertex_combinations:
-    print(w)
-    print(is_vertex_cover(w, adj_matrix))
-print(aprox_vertex_cover(adj_matrix))
 
+def swkOrder_function(adj_matrix):
+    # print Yes No
+    boo = []
+    for w in vertex_combinations:
+        boo.append(is_vertex_cover(w, adj_matrix))
+
+    if True in boo:
+        print("Yeah Suay!")
+    else:
+        print("No Way")
+
+    # print answers
+    ans = ""
+    for w in vertex_combinations:
+        if is_vertex_cover(w, adj_matrix):
+            for a in w:
+                print(a, end = " ")
+            print()
+        # mairu mairu khob khun kub suay!
+
+    
+# print(aprox_vertex_cover(adj_matrix))
+
+def swkPreOrder_function(adj_matrix):
+    ans = ""
+    answer = []
+    cnt = 0
+    for w in aprox_vertex_cover(adj_matrix):
+        for a in w:
+            cnt += 1
+            ans = ans + str(a) 
+    print(cnt)
+
+    for s in sorted(ans):
+        print(s, end = " ")
+    print()
+
+
+print("-----------------No.1-----------------")
+swkOrder_function(adj_matrix)
+print("-----------------No.2-----------------")
+swkPreOrder_function(adj_matrix)
+print("-----------------No.3-----------------")
+
+clauses = 1
+literals = [[1, -2, 3]]
+
+def reduction(clauses: int, literals: list):
+    # หาจำนวน variable
+    vars = set()
+    for l in literals:
+        for v in l:
+            vars.add(abs(v))
+    
+    n = len(vars) # จำนวน variables
+    m = clauses # จำนวน clauses
+    vertices = 2*n + 3*m # จำนวนจุดทั้งหมด
+    k = n + 2*m # ค่า K
+
+    adj = [[0] * vertices for i in range(vertices)]
+    
+    top_graph = 2*n
+    bottom_graph = 3*m
+    
+    # สร้างกราฟส่วนบน
+    
+    top_edges = []
+    for i in range(top_graph):
+        if i%2 == 0:
+            top_edges.append((i, i+1))
+
+    for e in top_edges:
+        i = e[0]
+        j = e[1]
+        adj[i][j] = 1
+        adj[j][i] = 1
+                
+    # print(adj)
+    
+    # สร้างกราฟส่วนล่าง
+
+    for h in range(top_graph, top_graph + bottom_graph, 3):
+        for i in range(h, h + 3):
+            for j in range(h, h + 3):
+                if i != j:
+                    adj[i][j] = 1
+                
+    
+        
+    # เชื่อมกราฟบนกับล่าง (clause เดียว)
+
+    cur_clause = 0
+    for h in range(top_graph, top_graph + bottom_graph, 3):
+        for i in range(len(literals[cur_clause])): # clauses[cur_clause] -> [x1, -x2, x3]
+            l = literals[cur_clause][i]
+            v = abs(l)
+            if l >= 0:
+                # print('l+; ' + str((v - 1)*2) + ', ' + str(i + h))
+                adj[(v - 1)*2][i + h] = 1
+                adj[i + h][(v - 1)*2] = 1
+            else:
+                # print('l-; ' + str((v - 1)*2 + 1) + ', ' + str(i + h))
+                adj[(v - 1)*2 + 1][i + h] = 1
+                adj[i + h][(v - 1)*2 + 1] = 1
+        cur_clause += 1
+    
+    # susususu
+    # print(adj)
+    return (vertices, k, adj)
+
+vertices_reduce, k_reduce, adj_reduce = reduction(clauses, literals)
+print(vertices_reduce)
+print(k_reduce)
+for l in adj_reduce:
+    print(l)
+
+
+
+    
