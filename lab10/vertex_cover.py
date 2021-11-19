@@ -1,3 +1,4 @@
+from math import inf
 import os
 import random
 import copy
@@ -100,8 +101,10 @@ def number2(adj_matrix: list):
                     e.append((i + 1, j + 1))
                 j += 1
             i += 1
+        print(e)
         while len(e) != 0:
             edge = e[random.randrange(len(e))]
+            print(edge)
             u = edge[0]
             v = edge[1]
             w.append(edge)
@@ -110,11 +113,12 @@ def number2(adj_matrix: list):
                 if u not in t and v not in t:
                     new_e.append(t)
             e = new_e
+            print(e)
         return w
 
         
-    # print(aprox_vertex_cover(adj_matrix))
-
+    print(aprox_vertex_cover(adj_matrix))
+    '''
     def swkPreOrder_function(adj_matrix):
         ans = ""
         answer = []
@@ -130,7 +134,7 @@ def number2(adj_matrix: list):
         print()
 
     swkPreOrder_function(adj_matrix)
-
+    '''
 
 def number3(clauses: int, literals: list):
 
@@ -176,7 +180,7 @@ def number3(clauses: int, literals: list):
                     
         
             
-        # เชื่อมกราฟบนกับล่าง (clause เดียว)
+        # เชื่อมกราฟบนกับล่าง
 
         cur_clause = 0
         for h in range(top_graph, top_graph + bottom_graph, 3):
@@ -205,13 +209,63 @@ def number3(clauses: int, literals: list):
 
 
 
-
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'input/10.3.1.txt')
+filename = os.path.join(dirname, 'input/2.2.txt')
 f = open(filename)
 lines = [line.strip() for line in f.readlines()]
 f.close()
 
+
+adj_matrix = []
+for i in range(len(lines)):
+    adj_matrix.append([int(j) for j in lines[i].split(' ')])
+
+def aprox_vertex_cover(adj: list):
+    w = []
+    e = []
+    
+    vertex = []
+    for i in range(len(adj)):
+        vertex.append(i + 1)
+
+    i = 0
+    for u in adj:
+        j = 0
+        for v in u:
+            if v == 1:
+                if i != j:
+                    e.append((i + 1, j + 1))
+            j += 1
+        i += 1
+    
+
+    while len(e) != 0:
+        i = random.randrange(len(vertex))
+        vertex_ran = vertex[i]
+        vertex.pop(i)
+        w.append(vertex_ran)
+        new_e = []
+        for t in e:
+            if vertex_ran not in t:
+                new_e.append(t)
+        
+        e = new_e
+        
+    return w
+
+least_cnt = inf
+least_w = []
+for i in range(100):    
+    w = aprox_vertex_cover(adj_matrix)
+    if len(w) < least_cnt:
+        least_cnt = len(w)
+        least_w = w
+
+
+print('least vertices = ' + str(least_cnt))
+print('vertex cover = ' + str(least_w))
+
+'''
 num = input("โจทย์ที่เท่าไหร่จ๊ะ: ")
 num = int(num)
 
@@ -250,6 +304,9 @@ elif num == 3:
 
 else:
     print('เลขอะไรไอหนูมั่วแล้ว')
+
+'''
+
 
 
 
